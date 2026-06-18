@@ -1,0 +1,19 @@
+{
+  "name": "Cloudflare Diagnostic Client",
+  "version": "1.0.0",
+  "description": "MCP Client configuration for Cloudflare Network Diagnostic Tool",
+  "servers": {
+    "cloudflare-diagnostics": {
+      "command": "python3",
+      "args": ["index.py"],
+      "env": {
+        "PYTHONUNBUFFERED": "1"
+      }
+    }
+  },
+  "settings": {
+    "timeout": 30000,
+    "retries": 3,
+    "logLevel": "info"
+  }
+}

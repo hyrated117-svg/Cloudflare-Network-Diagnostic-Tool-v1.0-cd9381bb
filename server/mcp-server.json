@@ -1,0 +1,77 @@
+{
+  "name": "Cloudflare Network Diagnostic Tool",
+  "version": "1.0.0",
+  "description": "MCP Server for Cloudflare network diagnostics",
+  "type": "stdio",
+  "command": "python3",
+  "args": ["index.py"],
+  "env": {
+    "PYTHONUNBUFFERED": "1"
+  },
+  "tools": [
+    {
+      "name": "dns_check",
+      "description": "Check DNS resolution for a domain",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "domain": {
+            "type": "string",
+            "description": "Domain name to check"
+          }
+        },
+        "required": ["domain"]
+      }
+    },
+    {
+      "name": "doh_test",
+      "description": "Test DNS-over-HTTPS endpoint",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "DoH endpoint URL"
+          }
+        },
+        "required": ["url"]
+      }
+    },
+    {
+      "name": "trace_route",
+      "description": "Perform traceroute to destination",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "destination": {
+            "type": "string",
+            "description": "Target destination (IP or domain)"
+          }
+        },
+        "required": ["destination"]
+      }
+    },
+    {
+      "name": "health_score",
+      "description": "Calculate network health score",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "export_results",
+      "description": "Export diagnostic results",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "format": {
+            "type": "string",
+            "enum": ["json", "csv", "pdf"],
+            "description": "Export format"
+          }
+        }
+      }
+    }
+  ]
+}
