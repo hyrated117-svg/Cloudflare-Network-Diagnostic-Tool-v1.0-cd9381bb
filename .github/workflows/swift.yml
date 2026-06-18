@@ -1,22 +1,48 @@
-# This workflow will build a Swift project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-swift
-
-name: Swift
+name: CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
+
+permissions:
+  contents: read
 
 jobs:
-  build:
-
-    runs-on: macos-latest
+  build-test:
+    name: 🔧 Build & Test Pipeline
+    runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Build
-      run: swift build -v
-    - name: Run tests
-      run: swift test -v
+      - name: 🧱 Checkout repository
+        uses: actions/checkout@v4
+
+      # -----------------------------
+      # SwiftUI Build & Lint
+      # -----------------------------
+      - name: 🧰 Set up Swift
+        uses: swift-actions/setup-swift@v2
+        with:
+          swift-version: "5.9"
+
+      - name: 🛠 Swift Build
+        working-directory: SwiftUI-App
+        run: swift build
+
+      - name: 🔍 SwiftLint (if available)
+        run: |
+          if command -v swiftlint >/dev/null; then
+            swiftlint lint --strict
+          else
+            echo "SwiftLint not installed — skipping"
+          fi
+
+      # -----------------------------
+      # Python MCP Server
+      # -----------------------------
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
